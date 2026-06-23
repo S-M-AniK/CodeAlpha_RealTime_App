@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room - CodeAlpha Connect</title>
+    <link rel="stylesheet" href="/css/room.css">
+</head>
+<body>
+    <div class="room-container">
+        <header class="room-header">
+            <span id="roomLabel">Room: </span>
+            <button id="copyLinkBtn" class="btn-small">📋 Copy Link</button>
+        </header>
+
+        <div id="videoGrid" class="video-grid">
+            <!-- Video tiles will be added here dynamically -->
+        </div>
+
+        <div class="controls-bar">
+            <button id="micBtn" class="control-btn">🎤</button>
+            <button id="camBtn" class="control-btn">📷</button>
+            <button id="screenBtn" class="control-btn">🖥️</button>
+            <button id="chatBtn" class="control-btn">💬</button>
+            <button id="leaveBtn" class="control-btn leave-btn">📞</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/room.js"></script>
+</body>
+</html>

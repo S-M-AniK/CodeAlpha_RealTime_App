@@ -7,10 +7,19 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <h1>🎥 CodeAlpha Connect</h1>
-    <p>Real-time video calling app coming soon...</p>
+    <div class="lobby-container">
+        <h1>🎥 CodeAlpha Connect</h1>
+        <p class="subtitle">Real-time video calling & collaboration</p>
+
+        <div class="lobby-form">
+            <input type="text" id="usernameInput" placeholder="Your name" maxlength="20">
+            <input type="text" id="roomInput" placeholder="Room ID (e.g. team-meeting)" maxlength="30">
+            <button id="joinBtn" class="btn">Join Room 🚀</button>
+            <button id="createBtn" class="btn-secondary">Generate Random Room</button>
+        </div>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="/js/lobby.js"></script>
 </body>
 </html>
