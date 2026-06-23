@@ -163,3 +163,59 @@ document.getElementById('leaveBtn').addEventListener('click', () => {
     Object.values(peerConnections).forEach((pc) => pc.close());
     window.location.href = '/';
 });
+
+let isScreenSharing = false;
+let screenStream = null;
+let originalVideoTrack = null;
+
+document.getElementById('screenBtn').addEventListener('click', async () => {
+    if (!isScreenSharing) {
+        try {
+            screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+            const screenTrack = screenStream.getVideoTracks()[0];
+
+            originalVideoTrack = localStream.getVideoTracks()[0];
+
+            Object.values(peerConnections).forEach((pc) => {
+                const sender = pc.getSenders().find((s) => s.track && s.track.kind === 'video');
+                if (sender) sender.replaceTrack(screenTrack);
+            });
+
+            const localVideoEl = document.querySelector('#tile-local video');
+            if (localVideoEl) {
+                const newStream = new MediaStream([screenTrack, ...localStream.getAudioTracks()]);
+                localVideoEl.srcObject = newStream;
+            }
+
+            isScreenSharing = true;
+            document.getElementById('screenBtn').classList.add('active');
+
+            screenTrack.onended = () => {
+                stopScreenShare();
+            };
+        } catch (err) {
+            console.error('Error sharing screen:', err);
+        }
+    } else {
+        stopScreenShare();
+    }
+});
+
+function stopScreenShare() {
+    if (screenStream) {
+        screenStream.getTracks().forEach((track) => track.stop());
+    }
+
+    Object.values(peerConnections).forEach((pc) => {
+        const sender = pc.getSenders().find((s) => s.track && s.track.kind === 'video');
+        if (sender) sender.replaceTrack(originalVideoTrack);
+    });
+
+    const localVideoEl = document.querySelector('#tile-local video');
+    if (localVideoEl) {
+        localVideoEl.srcObject = localStream;
+    }
+
+    isScreenSharing = false;
+    document.getElementById('screenBtn').classList.remove('active');
+}
