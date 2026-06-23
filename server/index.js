@@ -47,6 +47,10 @@ io.on('connection', (socket) => {
         io.to(to).emit('ice-candidate', { from: socket.id, candidate });
     });
 
+    socket.on('chat-message', ({ roomId, username, message }) => {
+        io.to(roomId).emit('chat-message', { username, message });
+    });
+
     socket.on('disconnect', () => {
         if (socket.roomId) {
             socket.to(socket.roomId).emit('user-left', {

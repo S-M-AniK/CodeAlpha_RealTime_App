@@ -13,8 +13,17 @@
             <button id="copyLinkBtn" class="btn-small">📋 Copy Link</button>
         </header>
 
-        <div id="videoGrid" class="video-grid">
-            <!-- Video tiles will be added here dynamically -->
+        <div class="main-area">
+            <div id="videoGrid" class="video-grid"></div>
+
+            <div id="chatPanel" class="chat-panel hidden">
+                <div class="chat-header">Chat 💬</div>
+                <div id="chatMessages" class="chat-messages"></div>
+                <form id="chatForm" class="chat-form">
+                    <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off">
+                    <button type="submit">➤</button>
+                </form>
+            </div>
         </div>
 
         <div class="controls-bar">

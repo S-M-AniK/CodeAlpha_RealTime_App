@@ -219,3 +219,43 @@ function stopScreenShare() {
     isScreenSharing = false;
     document.getElementById('screenBtn').classList.remove('active');
 }
+
+document.getElementById('chatBtn').addEventListener('click', () => {
+    document.getElementById('chatPanel').classList.toggle('hidden');
+});
+
+const chatForm = document.getElementById('chatForm');
+const chatInput = document.getElementById('chatInput');
+const chatMessages = document.getElementById('chatMessages');
+
+function addChatMessage(sender, message, isOwn = false) {
+    const msgEl = document.createElement('div');
+    msgEl.classList.add('chat-message');
+    if (isOwn) msgEl.classList.add('own');
+
+    const senderEl = document.createElement('span');
+    senderEl.classList.add('sender');
+    senderEl.textContent = sender;
+
+    const textEl = document.createElement('div');
+    textEl.textContent = message;
+
+    msgEl.appendChild(senderEl);
+    msgEl.appendChild(textEl);
+    chatMessages.appendChild(msgEl);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+chatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    socket.emit('chat-message', { roomId, username, message });
+    addChatMessage('You', message, true);
+    chatInput.value = '';
+});
+
+socket.on('chat-message', ({ username: sender, message }) => {
+    addChatMessage(sender, message, false);
+});
