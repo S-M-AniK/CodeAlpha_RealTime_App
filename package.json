@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-"start": "node server/index.js",
-"dev": "nodemon server/index.js",
-"test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,10 @@
   },
   "homepage": "https://github.com/S-M-AniK/CodeAlpha_RealTime_App#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "jsonwebtoken": "^9.0.3",
     "socket.io": "^4.8.3"
   },
   "devDependencies": {

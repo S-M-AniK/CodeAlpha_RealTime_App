@@ -9,17 +9,18 @@
 <body>
     <div class="lobby-container">
         <h1>🎥 CodeAlpha Connect</h1>
-        <p class="subtitle">Real-time video calling & collaboration</p>
+        <p class="subtitle">Welcome, <span id="welcomeName"></span>!</p>
 
         <div class="lobby-form">
-            <input type="text" id="usernameInput" placeholder="Your name" maxlength="20">
+            <input type="text" id="usernameInput" placeholder="Your name">
             <input type="text" id="roomInput" placeholder="Room ID (e.g. team-meeting)" maxlength="30">
             <button id="joinBtn" class="btn">Join Room 🚀</button>
             <button id="createBtn" class="btn-secondary">Generate Random Room</button>
+            <button id="logoutBtn" class="btn-secondary">Logout</button>
         </div>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
+  
     <script src="/js/lobby.js"></script>
 </body>
 </html>

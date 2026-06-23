@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CodeAlpha Connect</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="lobby-container">
+        <h1>🎥 CodeAlpha Connect</h1>
+        <p class="subtitle" id="formTitle">Login to your account</p>
+
+        <div class="lobby-form">
+            <input type="text" id="usernameInput" placeholder="Username" maxlength="20">
+            <input type="password" id="passwordInput" placeholder="Password" maxlength="50">
+            <p id="errorMsg" style="color: #e94560; font-size: 0.85rem; display: none;"></p>
+            <button id="submitBtn" class="btn">Login</button>
+            <button id="toggleModeBtn" class="btn-secondary">Don't have an account? Register</button>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+</body>
+</html>
