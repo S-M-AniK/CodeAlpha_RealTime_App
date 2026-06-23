@@ -136,3 +136,30 @@ socket.on('connect', () => {
     console.log('Connected with id:', socket.id);
     initLocalMedia();
 });
+
+let isMicOn = true;
+let isCamOn = true;
+
+document.getElementById('micBtn').addEventListener('click', () => {
+    isMicOn = !isMicOn;
+    localStream.getAudioTracks().forEach((track) => {
+        track.enabled = isMicOn;
+    });
+    document.getElementById('micBtn').classList.toggle('active', !isMicOn);
+    document.getElementById('micBtn').textContent = isMicOn ? '🎤' : '🔇';
+});
+
+document.getElementById('camBtn').addEventListener('click', () => {
+    isCamOn = !isCamOn;
+    localStream.getVideoTracks().forEach((track) => {
+        track.enabled = isCamOn;
+    });
+    document.getElementById('camBtn').classList.toggle('active', !isCamOn);
+    document.getElementById('camBtn').textContent = isCamOn ? '📷' : '📵';
+});
+
+document.getElementById('leaveBtn').addEventListener('click', () => {
+    localStream.getTracks().forEach((track) => track.stop());
+    Object.values(peerConnections).forEach((pc) => pc.close());
+    window.location.href = '/';
+});
