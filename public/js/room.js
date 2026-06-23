@@ -259,3 +259,106 @@ chatForm.addEventListener('submit', (e) => {
 socket.on('chat-message', ({ username: sender, message }) => {
     addChatMessage(sender, message, false);
 });
+
+const boardBtn = document.getElementById('boardBtn');
+const whiteboardModal = document.getElementById('whiteboardModal');
+const closeBoardBtn = document.getElementById('closeBoardBtn');
+const clearBoardBtn = document.getElementById('clearBoardBtn');
+const canvas = document.getElementById('whiteboardCanvas');
+const ctx = canvas.getContext('2d');
+const colorPicker = document.getElementById('colorPicker');
+const brushSize = document.getElementById('brushSize');
+
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+
+function resizeCanvas() {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+}
+
+boardBtn.addEventListener('click', () => {
+    whiteboardModal.classList.remove('hidden');
+    resizeCanvas();
+});
+
+closeBoardBtn.addEventListener('click', () => {
+    whiteboardModal.classList.add('hidden');
+});
+
+clearBoardBtn.addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    socket.emit('clear-board', { roomId });
+});
+
+function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    if (e.touches) {
+        return {
+            x: e.touches[0].clientX - rect.left,
+            y: e.touches[0].clientY - rect.top,
+        };
+    }
+    return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+    };
+}
+
+function drawLine(x0, y0, x1, y1, color, size) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = size;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+}
+
+function startDrawing(e) {
+    isDrawing = true;
+    const pos = getPos(e);
+    lastX = pos.x;
+    lastY = pos.y;
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+    const pos = getPos(e);
+    const color = colorPicker.value;
+    const size = brushSize.value;
+
+    drawLine(lastX, lastY, pos.x, pos.y, color, size);
+
+    socket.emit('draw', {
+        roomId,
+        data: { x0: lastX, y0: lastY, x1: pos.x, y1: pos.y, color, size },
+    });
+
+    lastX = pos.x;
+    lastY = pos.y;
+}
+
+function stopDrawing() {
+    isDrawing = false;
+}
+
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('mouseleave', stopDrawing);
+
+canvas.addEventListener('touchstart', startDrawing);
+canvas.addEventListener('touchmove', draw);
+canvas.addEventListener('touchend', stopDrawing);
+
+socket.on('draw', (data) => {
+    drawLine(data.x0, data.y0, data.x1, data.y1, data.color, data.size);
+});
+
+socket.on('clear-board', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+window.addEventListener('resize', resizeCanvas);

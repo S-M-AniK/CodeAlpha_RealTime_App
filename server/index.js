@@ -51,6 +51,14 @@ io.on('connection', (socket) => {
         io.to(roomId).emit('chat-message', { username, message });
     });
 
+    socket.on('draw', ({ roomId, data }) => {
+        socket.to(roomId).emit('draw', data);
+    });
+
+    socket.on('clear-board', ({ roomId }) => {
+        socket.to(roomId).emit('clear-board');
+    });
+
     socket.on('disconnect', () => {
         if (socket.roomId) {
             socket.to(socket.roomId).emit('user-left', {

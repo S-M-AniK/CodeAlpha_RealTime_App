@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room - CodeAlpha Connect</title>
-    <link rel="stylesheet" href="/css/room.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
     <div class="room-container">
@@ -26,13 +26,26 @@
             </div>
         </div>
 
-        <div class="controls-bar">
-            <button id="micBtn" class="control-btn">🎤</button>
-            <button id="camBtn" class="control-btn">📷</button>
-            <button id="screenBtn" class="control-btn">🖥️</button>
-            <button id="chatBtn" class="control-btn">💬</button>
-            <button id="leaveBtn" class="control-btn leave-btn">📞</button>
+        <div id="whiteboardModal" class="whiteboard-modal hidden">
+            <div class="whiteboard-toolbar">
+                <input type="color" id="colorPicker" value="#e94560">
+                <input type="range" id="brushSize" min="1" max="20" value="3">
+                <button id="clearBoardBtn" class="btn-small">🗑️ Clear</button>
+                <button id="closeBoardBtn" class="btn-small">✖ Close</button>
+            </div>
+            <canvas id="whiteboardCanvas"></canvas>
         </div>
+
+       <div class="controls-bar">
+    <button id="micBtn" class="control-btn" title="Mute/Unmute Microphone">🎤</button>
+    <button id="camBtn" class="control-btn" title="Turn Camera On/Off">📷</button>
+    <button id="screenBtn" class="control-btn" title="Share Screen">🖥️</button>
+    <button id="chatBtn" class="control-btn" title="Open Chat">💬</button>
+    <button id="boardBtn" class="control-btn" title="Open Whiteboard">🎨</button>
+    <button id="leaveBtn" class="control-btn leave-btn" title="Leave Call">📞</button>
+       </div>
+
+       
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
